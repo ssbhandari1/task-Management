@@ -1,16 +1,20 @@
 
 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FaUserCircle, FaBell, FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const router = useRouter();
 
   const handleLogin = () => {
+    router.push('/auth/login')
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
+    router.push('/auth/login')
     setIsLoggedIn(false);
   };
 

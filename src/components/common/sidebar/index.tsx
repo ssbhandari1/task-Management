@@ -12,7 +12,7 @@ const Sidebar: FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   return (
     <div
       className={`fixed inset-0 z-30 lg:relative lg:w-64 lg:block transition-all duration-300 transform bg-gray-200 text-white
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:h-full`}
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:h-full`}
     >
 
       <div className="py-4">
