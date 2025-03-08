@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 const Page = () => {
@@ -18,27 +18,28 @@ const Page = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+  
     const { username, email, password, confirmPassword } = formData;
-
+  
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
+  
     try {
       await axios.post("/api/auth/signup", { username, email, password });
       alert("Signup successful!");
       router.push("/auth/login");
     } catch (error) {
-      setError(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
+      const err = error as AxiosError<{ message: string }>;
+      setError(err.response?.data?.message || "An error occurred. Please try again.");
     }
   };
+  
   
   return (
     <div className="w-full flex justify-center mt-10 mb-10 text-sm">
