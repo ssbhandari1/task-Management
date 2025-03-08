@@ -2,9 +2,16 @@
 'use client'
 import React from 'react';
 
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  status: "Pending" | "In Progress" | "Completed";
+  dueDate: string;
+};
 interface TaskColumnProps {
   title: string;
-  tasks: any[];
+  tasks: Task[];
   statusColor: string;
 }
 

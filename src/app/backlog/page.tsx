@@ -2,15 +2,24 @@
 import React, { useState } from "react";
 import Modal from "@/components/ui/modal";
 
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  status: "Pending" | "In Progress" | "Completed";
+  dueDate: string;
+};
+
+
 const Page = () => {
-  const [tasks, setTasks] = useState([
+  const [tasks, setTasks] = useState<Task[]>([
     { id: 1, title: "Task 1", description: "Lorem ipsum dolor sit amet", status: "Pending", dueDate: "2025-03-10" },
     { id: 2, title: "Task 2", description: "Consectetur adipisicing elit", status: "In Progress", dueDate: "2025-03-15" },
     { id: 3, title: "Task 3", description: "Voluptatem molestias tempora", status: "Completed", dueDate: "2025-02-28" },
   ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [taskToEdit, setTaskToEdit] = useState<any>(null);
+  const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   const [isEditing, setIsEditing] = useState(false); // Track whether adding or editing
 
   // Delete Task
@@ -19,7 +28,7 @@ const Page = () => {
   };
 
   // Open Edit Modal
-  const openEditModal = (task: any) => {
+  const openEditModal = (task: Task) => {
     setTaskToEdit(task);
     setIsEditing(true);
     setIsModalOpen(true);
@@ -38,7 +47,7 @@ const Page = () => {
     setTaskToEdit(null);
   };
 
-  const saveTask = (updatedTask: any) => {
+  const saveTask = (updatedTask: Task) => {
     if (isEditing) {
       setTasks(tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
     } else {

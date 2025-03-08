@@ -22,12 +22,10 @@ const Page = () => {
 
     try {
       const res = await axios.post("/api/auth/login", { email, password });
-      const { token } = res.data;
-
-      if (token) {
-        localStorage.setItem("authToken", token);
-        router.push("/");
+      if (res.status === 200) {
+        router.push("/backlog");
       }
+
     } catch (error: unknown) {
       console.log(error);
     }

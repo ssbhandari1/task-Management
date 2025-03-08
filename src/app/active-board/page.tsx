@@ -4,7 +4,7 @@ import TaskColumn from '@/components/ui/taskCard';
 import React, { useState } from 'react';
 
 const Page = () => {
-  const [tasks, setTasks] = useState([
+  const [tasks] = useState([
     { id: 1, title: 'Task 1', description: 'Lorem ipsum dolor sit amet', status: 'Pending', dueDate: '2025-03-10' },
     { id: 2, title: 'Task 2', description: 'Consectetur adipisicing elit', status: 'Pending', dueDate: '2025-03-15' },
     { id: 3, title: 'Task 3', description: 'Voluptatem molestias tempora', status: 'Completed', dueDate: '2025-02-28' },

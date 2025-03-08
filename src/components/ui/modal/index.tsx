@@ -1,6 +1,21 @@
 import React, { useState } from 'react'
 
-const Modal = ({ task, onClose, onSave }: any) => {
+
+
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  status: "Pending" | "In Progress" | "Completed";
+  dueDate: string;
+};
+
+type ModalProps = {
+  task: Task;
+  onClose: () => void;
+  onSave: (updatedTask: Task) => void;
+};
+const Modal = ({ task, onClose, onSave }: ModalProps) => {
   const [formData, setFormData] = useState({
     title: task.title || "",
     description: task.description || "",

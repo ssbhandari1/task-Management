@@ -9,6 +9,7 @@ interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+  console.log(toggleSidebar)
   return (
     <div
       className={`fixed inset-0 z-30 lg:relative lg:w-64 lg:block transition-all duration-300 transform bg-gray-200 text-white

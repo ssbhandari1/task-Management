@@ -33,13 +33,13 @@ const Page = () => {
       await axios.post("/api/auth/signup", { username, email, password });
       alert("Signup successful!");
       router.push("/auth/login");
-    } catch (error: any) {
-      console.log("errorr",error)
+    } catch (error) {
       setError(
         error.response?.data?.message || "An error occurred. Please try again."
       );
     }
   };
+  
   return (
     <div className="w-full flex justify-center mt-10 mb-10 text-sm">
       <div className="mx-auto text-left justify-center rounded-md w-full max-w-lg px-4 py-8 sm:p-10 overflow-hidden align-middle transition-all transform bg-white shadow-xl">
