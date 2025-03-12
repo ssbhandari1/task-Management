@@ -3,17 +3,24 @@ import { useState } from "react";
 import Header from "../common/header";
 import Sidebar from "../common/sidebar";
 import Navbar from "../common/navbar";
+import { useAppSelector } from "@/hooks/redux.hooks";
+import Loading from "../common/loading";
 
 const UiLayoutProvider = ({ children }: { children: React.ReactNode }) => {
+
+  const { isAuthenticated, loading } = useAppSelector((state) => state.auth);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="w-full h-screen">
       <Header />
       <div className="flex w-full h-[90vh]">
-        {true && (
+        {isAuthenticated && (
           <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         )}
 

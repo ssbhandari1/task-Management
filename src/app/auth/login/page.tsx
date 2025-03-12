@@ -2,11 +2,12 @@
 import React, { useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { FiLock } from "react-icons/fi";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useLogin } from "@/hooks/useLogin";
+
 const Page = () => {
-  const router = useRouter();
+  const { login } = useLogin();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,21 +16,19 @@ const Page = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { email, password } = formData;
-
     try {
-      const res = await axios.post("/api/auth/login", { email, password });
-      if (res.status === 200) {
-        router.push("/backlog");
-      }
-
-    } catch (error: unknown) {
-      console.log(error);
+      await login(formData, '/backlog'); // Pass form data and redirect path
+    } catch (error) {
+      // Handle login error (e.g., show an error message)
+      console.error('Login error:', error);
     }
   };
+
   return (
     <div className="w-full flex justify-center mt-10 mb-10">
       <div className="mx-auto text-left flex justify-center rounded-md w-full max-w-lg px-4 py-8 sm:p-10 bg-white shadow-xl my-10">
@@ -82,7 +81,7 @@ const Page = () => {
               </div>
               <button
               type="submit"
-              className="w-full py-2 bg-blue-400 text-white rounded hover:bg-blue-500 transition"
+              className="w-full py-2 bg-blue-400 text-white rounded hover:bg-blue-500 transition cursor-pointer"
             >
                 Login
               </button>
