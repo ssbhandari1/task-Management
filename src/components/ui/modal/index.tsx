@@ -1,14 +1,6 @@
+import { Task } from '@/types/task';
 import React, { useState } from 'react'
 
-
-
-type Task = {
-  id: number;
-  title: string;
-  description: string;
-  status: "Pending" | "In Progress" | "Completed";
-  dueDate: string;
-};
 
 type ModalProps = {
   task: Task;
@@ -28,7 +20,8 @@ const Modal = ({ task, onClose, onSave }: ModalProps) => {
   };
 
   const handleSave = () => {
-    onSave({ ...task, ...formData });
+    const updatedTask = { ...task, ...formData };
+    onSave(updatedTask);
     onClose();
   };
 

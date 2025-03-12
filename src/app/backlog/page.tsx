@@ -1,14 +1,7 @@
 'use client'
 import React, { useState } from "react";
 import Modal from "@/components/ui/modal";
-
-type Task = {
-  id: number;
-  title: string;
-  description: string;
-  status: "Pending" | "In Progress" | "Completed";
-  dueDate: string;
-};
+import { Task } from "@/types/task";
 
 
 const Page = () => {
@@ -23,7 +16,7 @@ const Page = () => {
   const [isEditing, setIsEditing] = useState(false); // Track whether adding or editing
 
   // Delete Task
-  const deleteTask = (id: number) => {
+  const deleteTask = (id: number | undefined) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
@@ -51,7 +44,7 @@ const Page = () => {
     if (isEditing) {
       setTasks(tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
     } else {
-      const newTask = { ...updatedTask, id: tasks.length + 1 }; // Generate unique ID
+      const newTask = { ...updatedTask, id: tasks.length + 1 };
       setTasks([...tasks, newTask]);
     }
     closeModal();
@@ -93,7 +86,7 @@ const Page = () => {
                 Edit
               </button>
               <button
-                onClick={() => deleteTask(task.id)}
+                onClick={() => deleteTask(task?.id)}
                 className="bg-gradient-to-r from-red-400 to-red-500 text-white px-5 py-2 rounded-md hover:from-red-500 hover:to-red-400 transition-all duration-300"
               >
                 Delete
