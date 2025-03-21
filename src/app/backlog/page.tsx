@@ -25,7 +25,7 @@ const Page = () => {
 
 
 
-  }, [user?.id])
+  }, [user?.id, dispatch])
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);

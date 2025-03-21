@@ -17,7 +17,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         router.push('/backlog');
       }
     }
-  }, [ isAuthenticated, pathName]);
+  }, [ isAuthenticated, pathName, loading, router]);
 
   if (loading) {
     return <Loading />;

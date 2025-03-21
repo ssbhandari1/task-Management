@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { deleteTask, updateTask } from "@/services/task";
 
 export async function DELETE(req: Request, { params }: { params: { taskId: string } }) {
@@ -24,9 +24,9 @@ export async function DELETE(req: Request, { params }: { params: { taskId: strin
 
 
 
-export async function PUT(req: Request, { params }: { params: { taskId: string } }) {
+export async function PUT(req: NextRequest, context: { params: { taskId: string } }) {
   try {
-    const { taskId } = params;
+    const { taskId } = context.params;
     const { title, description, status, dueDate } = await req.json();
 
     if (!taskId) {
@@ -45,7 +45,8 @@ export async function PUT(req: Request, { params }: { params: { taskId: string }
 
     return NextResponse.json(updatedTask, { status: 200 });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json({ message: "Error updating task" }, { status: 500 });
   }
 }
+
