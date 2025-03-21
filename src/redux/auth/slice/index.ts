@@ -15,12 +15,12 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
-    loginSuccess(state, action: PayloadAction<{ user: User }>) {
+    loginSuccess(state, action: PayloadAction<User>) {
       state.isAuthenticated = true;
-      state.user = action.payload.user;
+      state.user = action.payload;
       state.loading = false;
     },
     logout(state) {
@@ -31,17 +31,14 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handle the pending state of verifyAuth
       .addCase(verifyAuth.pending, (state) => {
         state.loading = true;
       })
-      // Handle the fulfilled state of verifyAuth
-      .addCase(verifyAuth.fulfilled, (state, action) => {
+      .addCase(verifyAuth.fulfilled, (state, action: PayloadAction<User>) => {
         state.isAuthenticated = true;
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.loading = false;
       })
-      // Handle the rejected state of verifyAuth
       .addCase(verifyAuth.rejected, (state) => {
         state.isAuthenticated = false;
         state.user = null;

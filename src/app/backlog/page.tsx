@@ -1,23 +1,40 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "@/components/ui/modal";
 import { Task } from "@/types/task";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux.hooks";
+import { createTaskThunk, deleteTaskThunk, getUserTaksThunk, updateTaskThunk } from "@/redux/task/thunk";
 
 
 const Page = () => {
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, title: "Task 1", description: "Lorem ipsum dolor sit amet", status: "Pending", dueDate: "2025-03-10" },
-    { id: 2, title: "Task 2", description: "Consectetur adipisicing elit", status: "In Progress", dueDate: "2025-03-15" },
-    { id: 3, title: "Task 3", description: "Voluptatem molestias tempora", status: "Completed", dueDate: "2025-02-28" },
-  ]);
+  const dispatch = useAppDispatch();
+  const { tasks } = useAppSelector((state) => state?.tasks);
+  const { user } = useAppSelector((state) => state?.auth);
+
+  useEffect(() => {
+    if (user?.id) {
+      const getUserTasks = async () => {
+        try {
+          await dispatch(getUserTaksThunk(user?.id))
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      getUserTasks()
+    }
+
+
+
+  }, [user?.id])
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
-  const [isEditing, setIsEditing] = useState(false); // Track whether adding or editing
+  const [isEditing, setIsEditing] = useState(false);
 
   // Delete Task
-  const deleteTask = (id: number | undefined) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = async(id: string) => {
+    await dispatch(deleteTaskThunk(id))
   };
 
   // Open Edit Modal
@@ -40,12 +57,13 @@ const Page = () => {
     setTaskToEdit(null);
   };
 
-  const saveTask = (updatedTask: Task) => {
+  const saveTask = async (updatedTask: Task) => {
     if (isEditing) {
-      setTasks(tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
+      // Call update thunk when editing an existing task
+      await dispatch(updateTaskThunk({ taskId: updatedTask?._id, updatedTask })).unwrap();
     } else {
-      const newTask = { ...updatedTask, id: tasks.length + 1 };
-      setTasks([...tasks, newTask]);
+      // Call create thunk when adding a new task
+      await dispatch(createTaskThunk({ updatedTask, id: user?.id })).unwrap();
     }
     closeModal();
   };
@@ -64,17 +82,17 @@ const Page = () => {
 
 
       <div>
-        {tasks.map((task) => (
-          <div key={task.id} className="bg-white p-6 mb-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
+        {tasks?.map((task) => (
+          <div key={task?._id} className="bg-white p-6 mb-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
             <h3 className="text-xl font-semibold text-gray-800 hover:text-blue-400 transition-colors">{task.title}</h3>
-            <p className="text-sm text-gray-600 mt-2">{task.description}</p>
+            <p className="text-sm text-gray-600 mt-2">{task?.description}</p>
 
             <div className="mt-4 flex justify-between text-sm text-gray-500">
               <div>
-                <span className="font-semibold">Status:</span> {task.status}
+                <span className="font-semibold">Status:</span> {task?.status}
               </div>
               <div>
-                <span className="font-semibold">Due Date:</span> {task.dueDate}
+                <span className="font-semibold">Due Date:</span> {task?.dueDate}
               </div>
             </div>
 
@@ -86,7 +104,7 @@ const Page = () => {
                 Edit
               </button>
               <button
-                onClick={() => deleteTask(task?.id)}
+                onClick={() => deleteTask(task?._id)}
                 className="bg-gradient-to-r from-red-400 to-red-500 text-white px-5 py-2 rounded-md hover:from-red-500 hover:to-red-400 transition-all duration-300"
               >
                 Delete

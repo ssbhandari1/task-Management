@@ -98,3 +98,8 @@ export const logInUser = async (email: string, password: string) => {
     throw new Error(`Login failed:`);
   }
 };
+
+
+export const getUserById = async (userId: string) => {
+  return await User.findById(userId).select("_id name email");
+};

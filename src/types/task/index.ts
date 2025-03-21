@@ -1,8 +1,8 @@
 // types.ts
 export type Task = {
-    id?: number;
+    _id?: string;
     title: string;
     description: string;
-    status: "Pending" | "In Progress" | "Completed";
+    status: string;
     dueDate: string;
   };
