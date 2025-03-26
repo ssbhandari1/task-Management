@@ -1,7 +1,7 @@
 
 
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { FaUserCircle, FaBell, FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
 import Loading from '../loading';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux.hooks';
