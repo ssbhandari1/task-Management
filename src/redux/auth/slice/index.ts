@@ -18,27 +18,18 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loginSuccess(state, action: PayloadAction<User>) {
-      state.isAuthenticated = true;
-      state.user = action.payload;
-      state.loading = false;
-    },
-    logout(state) {
-      state.isAuthenticated = false;
-      state.user = null;
-      state.loading = false;
-    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(verifyAuth.pending, (state) => {
         state.loading = true;
       })
-      .addCase(verifyAuth.fulfilled, (state, action: PayloadAction<User>) => {
-        state.isAuthenticated = true;
-        state.user = action.payload;
+      .addCase(verifyAuth.fulfilled, (state, action: PayloadAction<{ authenticated: boolean; user?: User }>) => {
+        state.isAuthenticated = action.payload.authenticated;
+        state.user = action.payload.user ?? null;
         state.loading = false;
-      })
+    })
+    
       .addCase(verifyAuth.rejected, (state) => {
         state.isAuthenticated = false;
         state.user = null;
@@ -47,5 +38,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess, logout } = authSlice.actions;
+
 export default authSlice.reducer;
