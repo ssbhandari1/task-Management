@@ -6,8 +6,15 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, loading } = useAppSelector((state) => state.auth);
 
+  const getAuth = async () => {
+    try {
+      await dispatch(verifyAuth());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    dispatch(verifyAuth());
+    getAuth();
   }, [dispatch]);
 
   return { isAuthenticated, loading };

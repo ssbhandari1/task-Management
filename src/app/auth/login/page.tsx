@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useLogin } from "@/hooks/useLogin";
 
 const Page = () => {
-  const { login } = useLogin();
+  const { login, error } = useLogin();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -22,15 +22,14 @@ const Page = () => {
     e.preventDefault();
 
     try {
-      await login(formData, '/backlog'); // Pass form data and redirect path
+      await login(formData, '/backlog');
     } catch (error) {
-      // Handle login error (e.g., show an error message)
       console.error('Login error:', error);
     }
   };
 
   return (
-    <div className="w-full flex justify-center mt-10 mb-10">
+    <div className="w-full flex justify-center">
       <div className="mx-auto text-left flex justify-center rounded-md w-full max-w-lg px-4 py-8 sm:p-10 bg-white shadow-xl my-10">
         <div className="w-full">
           <div className="text-center mb-6">
@@ -56,7 +55,7 @@ const Page = () => {
                     onChange={handleInputChange}
                     placeholder="Email"
                     autoComplete="email"
-                    className="py-2 pl-10 w-full border text-sm text-gray-900 rounded-md transition focus:outline-none focus:border-emerald-500 h-11"
+                    className={`py-2 pl-10 w-full border ${error ? 'border-red-600' : ''} text-sm text-gray-900 rounded-md transition focus:outline-none focus:border-emerald-500 h-11`}
                   />
                 </div>
               </div>
@@ -75,7 +74,7 @@ const Page = () => {
                     onChange={handleInputChange}
                     placeholder="Password"
                     autoComplete="current-password"
-                    className="py-2 pl-10 w-full border text-sm text-gray-900 rounded-md transition focus:outline-none focus:border-emerald-500 h-11"
+                    className={`py-2 pl-10 w-full border ${error ? 'border-red-600' : ''} text-sm text-gray-900 rounded-md transition focus:outline-none focus:border-emerald-500 h-11`}
                   />
                 </div>
               </div>
