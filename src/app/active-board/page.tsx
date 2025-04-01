@@ -1,6 +1,7 @@
 'use client';
 import TaskColumn from '@/components/ui/taskCard';
-import React, { useState } from 'react';
+import useGetTask from '@/hooks/task/useGetTask';
+import React from 'react';
 
 type Task = {
   id: number;
@@ -11,21 +12,14 @@ type Task = {
 };
 
 const Page = () => {
-  const [tasks] = useState<Task[]>([
-    { id: 1, title: 'Task 1', description: 'Lorem ipsum dolor sit amet', status: 'Pending', dueDate: '2025-03-10' },
-    { id: 2, title: 'Task 2', description: 'Consectetur adipisicing elit', status: 'Pending', dueDate: '2025-03-15' },
-    { id: 3, title: 'Task 3', description: 'Voluptatem molestias tempora', status: 'Completed', dueDate: '2025-02-28' },
-    { id: 4, title: 'Task 4', description: 'Voluptatem molestias tempora', status: 'Completed', dueDate: '2025-02-28' },
-  ]);
+  const { tasks } = useGetTask();
 
-  // Explicitly define the type for groupedTasks
   const groupedTasks: Record<Task['status'], Task[]> = {
     Pending: [],
     'In Progress': [],
     Completed: [],
   };
 
-  // Populate groupedTasks
   tasks.forEach((task) => {
     groupedTasks[task.status].push(task);
   });

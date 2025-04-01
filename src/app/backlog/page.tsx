@@ -1,33 +1,15 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "@/components/ui/modal";
 import { Task } from "@/types/task";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux.hooks";
-import { createTaskThunk, deleteTaskThunk, getUserTaksThunk, updateTaskThunk } from "@/redux/task/thunk";
+import { useAppDispatch } from "@/hooks/redux.hooks";
+import { createTaskThunk, deleteTaskThunk, updateTaskThunk } from "@/redux/task/thunk";
+import useGetTask from "@/hooks/task/useGetTask";
 
 
 const Page = () => {
   const dispatch = useAppDispatch();
-  const { tasks } = useAppSelector((state) => state?.tasks);
-  const { user } = useAppSelector((state) => state?.auth);
-
-  useEffect(() => {
-    if (user?.id) {
-      const getUserTasks = async () => {
-        try {
-          await dispatch(getUserTaksThunk(user?.id))
-        } catch (error) {
-          console.log(error)
-        }
-      }
-      getUserTasks()
-    }
-
-
-
-  }, [user?.id, dispatch])
-
-
+  const { tasks } = useGetTask();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   const [isEditing, setIsEditing] = useState(false);
