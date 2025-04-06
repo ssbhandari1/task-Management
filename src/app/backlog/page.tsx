@@ -9,7 +9,7 @@ import useGetTask from "@/hooks/task/useGetTask";
 
 const Page = () => {
   const dispatch = useAppDispatch();
-  const { tasks } = useGetTask();
+  const { tasks, user } = useGetTask();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   const [isEditing, setIsEditing] = useState(false);

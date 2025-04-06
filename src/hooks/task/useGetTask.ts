@@ -20,7 +20,7 @@ const useGetTask = () => {
     }
   }, [user?.id, tasks, dispatch]);
 
-  return { tasks };
+  return { tasks, user };
 };
 
 export default useGetTask;
